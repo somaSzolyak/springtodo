@@ -1,0 +1,28 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Basic TODO list</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="/css/styles.css"/>
+    </head>
+    <body>
+
+    <div>
+        <table>
+            <tr th:each="task : ${todos}">
+                <td th:text="${task.id}">id</td>
+                <td th:text="${task.title}">title</td>
+                <td th:text="${task.statusToString()}">status</td>
+                <td><a th:href="@{/todos/remove/{id}(id=${task.id})}">Delete</a></td>
+            </tr>
+        </table>
+        <a href="/todos"><button>Add a new one</button></a>
+    </div>
+
+        <div id="info">
+            <p>Double-click to edit a todo</p>
+        </div>
+    <script src="/js/app.js"></script>
+    </body>
+</html>

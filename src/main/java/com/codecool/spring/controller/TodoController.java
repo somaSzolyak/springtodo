@@ -1,5 +1,6 @@
 package com.codecool.spring.controller;
 
+import com.codecool.spring.model.Status;
 import com.codecool.spring.model.Todo;
 import com.codecool.spring.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,43 +17,46 @@ public class TodoController {
     @Autowired
     TodoService todoService;
 
-//        Render main UI
-//        we don't need to implement this in spring but unsure how the fck does spring knows the main route
-//        get("/", (req, res) -> renderTodos(req));
-
     private String add(Todo todo) {
         todoService.add(todo);
-        return "todos";
+        return "index";
     }
 
-    @RequestMapping(value = "todos", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String root(Model model) {
+        model.addAttribute("todos", todoService.findAll());
+        return "index";
+    }
+
+    @RequestMapping(value = "/todos", method = RequestMethod.GET)
     public String addNewTodo(Model model) {
         model.addAttribute("todo", new Todo());
-        return "todos";
+        return "todoform";
     }
 
-    @RequestMapping(value = "todos", method = RequestMethod.POST)
+    @RequestMapping(value = "/todos", method = RequestMethod.POST)
     public String addNewTodo(@ModelAttribute Todo todo) {
+        todo.setStatus(Status.ACTIVE);
         add(todo);
-        return "todos";
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "todos/completed", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/todos/completed/delete", method = RequestMethod.GET)
     public String removeCompleted() {
         todoService.deleteCompleted();
-        return "todos";
+        return "index";
     }
 
-    @RequestMapping(value = "todos/{id}", method = RequestMethod.DELETE)
-    public String removeById(@PathVariable("id") long id) {
+    @RequestMapping(value = "/todos/remove/{id}", method = RequestMethod.GET)
+    public String removeById(@PathVariable("id") int id) {
         todoService.deleteById(id);
-        return "todos";
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "todos/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/todos/{id}", method = RequestMethod.GET)
     public String updateById(@PathVariable("id") long id) {
         todoService.updateById(id);
-        return "todos";
+        return "index";
     }
 
 //

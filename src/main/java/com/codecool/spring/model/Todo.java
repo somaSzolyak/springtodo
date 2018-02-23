@@ -1,16 +1,23 @@
 package com.codecool.spring.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class Todo {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String title;
-    private String id;
     private Status status;
 
     public Todo() {}
 
-    public Todo(String title, String id, Status status) {
+    public Todo(String title, int id, Status status) {
         this.title = title;
         this.id = id;
         this.status = status;
@@ -24,11 +31,11 @@ public class Todo {
         this.title = title;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,12 +51,14 @@ public class Todo {
         this.status = isComplete() ? Status.ACTIVE : Status.COMPLETE;
     }
 
+    public String statusToString() { return isComplete() ? "COMPLETE" : "ACTIVE";}
+
     public boolean isComplete() {
         return this.status == Status.COMPLETE;
     }
 
     public static Todo create(String title) {
-        return new Todo(title, UUID.randomUUID().toString(), Status.ACTIVE);
+        return new Todo(title, Integer.parseInt(UUID.randomUUID().toString()), Status.ACTIVE);
     }
 
 }
