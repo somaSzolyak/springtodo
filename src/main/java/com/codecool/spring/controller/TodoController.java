@@ -54,9 +54,15 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/todos/{id}", method = RequestMethod.GET)
-    public String updateById(@PathVariable("id") long id) {
-        todoService.updateById(id);
-        return "index";
+    public String updateById(@PathVariable("id") int id, Model model) {
+        model.addAttribute("todo", todoService.findById(id));
+        return "todoedit";
+    }
+
+    @RequestMapping(value = "/todos/{id}", method = RequestMethod.POST)
+    public String updateById(@PathVariable("id") int id, @ModelAttribute Todo todo) {
+        todoService.updateById(todo);
+        return "redirect:/";
     }
 
 //

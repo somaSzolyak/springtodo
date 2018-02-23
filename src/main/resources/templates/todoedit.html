@@ -5,7 +5,7 @@
     <title>todo-form</title>
 </head>
 <body>
-<form th:action="@{/todos}" th:object="${todo}" method="post">
+<form th:action="@{/todos/{id}(id=${todo.getId()})}" th:object="${todo}" method="post">
     <p>
         Task title:
         <input type="text" th:field="${todo.title}">

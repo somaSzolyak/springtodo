@@ -12,7 +12,7 @@
         <table>
             <tr th:each="task : ${todos}">
                 <td th:text="${task.id}">id</td>
-                <td th:text="${task.title}">title</td>
+                <td><a th:href="@{/todos/{id}(id=${task.id})}" th:text="${task.title}">title</a></td>
                 <td th:text="${task.statusToString()}">status</td>
                 <td><a th:href="@{/todos/remove/{id}(id=${task.id})}">Delete</a></td>
             </tr>
